@@ -8,6 +8,7 @@ let cannoncost = {}
 let engines
 
 function calculateCannons() {
+    cannoncost = {}
     cannonMetal = 0
     cannonWood = 0
     let cannons = document.getElementById("cannontable")
