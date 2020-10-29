@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Tradelands Ship Calculator</title>
+    <script type="text/javascript" src="tlc.js"></script>
+    <link rel=stylesheet href=tlc.css />
+</head>
+
+<body>
+    <div>
+        ship wood
+        <select name="wood" class="ship wood dropdown">
+            <option value="Oak">Oak</option>
+            <option value="Mahogany">Mahogany</option>
+            <option value="Elm">Elm</option>
+            <option value="Ash">Ash</option>
+            <option value="Cherry">Cherry</option>
+            <option value="Ironwood">Ironwood</option>
+            <option value="Pine">Pine</option>
+            <option value="Spruce">Spruce</option>
+            <option value="Ebony">Ebony</option>
+            <option value="Angelwood">Angelwood</option>
+            <option value="Grimewood">Grimewood</option>
+            <option value="Blood Oak">Blood Oak</option>
+            <option value="Inyolan Oak">Inyolan Oak</option>
+            <option value="Heartwood">Heartwood</option>
+            <option value="Pwnwood">Pwnwood</option>
+            <option value="Morian Hardwood">Morian Hardwood</option>
+        </select>
+        <input type="number" class="ship wood input" name="shipwood" placeholder="cost per piece">
+        <br>
+    </div>
+    <div>
+        <label for="shipiron">Ship iron:</label>
+        <input type="number" class="ship iron input" name="shipiron" placeholder="cost per piece">
+        <br>
+    </div>
+    <div>
+        cannon wood
+        <select name="wood" class="cannon wood dropdown">
+            <option value="Oak">Oak</option>
+            <option value="Mahogany">Mahogany</option>
+            <option value="Elm">Elm</option>
+            <option value="Ash">Ash</option>
+            <option value="Cherry">Cherry</option>
+            <option value="Ironwood">Ironwood</option>
+            <option value="Pine">Pine</option>
+            <option value="Spruce">Spruce</option>
+            <option value="Ebony">Ebony</option>
+            <option value="Angelwood">Angelwood</option>
+            <option value="Grimewood">Grimewood</option>
+            <option value="Blood Oak">Blood Oak</option>
+            <option value="Inyolan Oak">Inyolan Oak</option>
+            <option value="Heartwood">Heartwood</option>
+            <option value="Pwnwood">Pwnwood</option>
+            <option value="Morian Hardwood">Morian Hardwood</option>
+        </select>
+        <input type="number" class="cannon wood input" name="shipwood" placeholder="cost per piece">
+        <br>
+    </div>
+    <div>
+        cannon metal
+        <select name="metal" class="cannon metal dropdown">
+            <option value="Iron">Iron</option>
+            <option value="Copper">Copper</option>
+            <option value="Silver">Silver</option>
+            <option value="Steel">Steel</option>
+            <option value="Cast Iron">Cast Iron</option>
+            <option value="Gold">Gold</option>
+            <option value="Ruby">Ruby</option>
+            <option value="Emerald">Emerald</option>
+            <option value="Amethyst">Amethyst</option>
+            <option value="Sapphire">Sapphire</option>
+            <option value="Onyx">Onyx</option>
+            <option value="Electrosteel">Electrosteel</option>
+            <option value="Ice">Ice</option>
+            <option value="Salt">Salt</option>
+            <option value="Colebalt">Colebalt</option>
+            <option value="Tuanite">Tuanite</option>
+            <option value="Nahrsteinium">Nahrsteinium</option>
+            <option value="Sand">Sand</option>
+            <option value="Sepsteel">Sepsteel</option>
+            <option value="Composition L">Composition L</option>
+            <option value="Pursteel">Pursteel</option>
+            <option value="Brekonium">Brekonium</option>
+            <option value="Lysian">Lysian</option>
+        </select>
+        <input type="number" class="cannon metal input" name="cannonmetal" placeholder="cost per piece">
+        <br>
+    </div>
+    <div>
+        engine type
+        <select name="engine" class="engine type dropdown" id="engine-dropdown">
+            <option value="Blessed">Blessed</option>
+            <option value="Un-Blessed">Un-Blessed</option>
+            <option value="Raw">Raw</option>
+        </select>
+        <input type="number" class="engine type input" name="enginetype" placeholder="amount" id="amount">
+        <input type="number" class="engine type input" name="enginetype" placeholder="cost per piece" id="copper">
+        <input type="number" class="engine type input" name="enginetype" placeholder="cost per piece" id="coal"
+            style="visibility: hidden;">
+        <input type="number" class="engine type input" name="enginetype" placeholder="cost per piece" id="iron"
+            style="visibility: hidden;">
+        <br>
+    </div>
+    <div>
+        Premium Tokens:
+        <input type="number" class="prems cost" name="prems" placeholder="cost per piece">
+    </div>
+    <div>
+        <table id="cannontable">
+            <thead>
+                <tr id="size">
+                    <th>Cannons</th>
+                    <th class="Light" title="Light">Light</th>
+                    <th class="Medium" title="Medium">Medium</th>
+                    <th class="Large" title="Large">Large</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="long-gun">
+                    <th>Long Gun</th>
+                    <td><input type="number" name="Light Long Gun" class="cannon"></td>
+                    <td><input type="number" name="Medium Long Gun" class="cannon"></td>
+                    <td><input type="number" name="Heavy Long Gun" class="cannon"></td>
+                </tr>
+                <tr id="carronade">
+                    <th>Carronade</th>
+                    <td><input type="number" name="Light Carronade" class="cannon"></td>
+                    <td><input type="number" name="Medium Carronade" class="cannon"></td>
+                    <td><input type="number" name="Heavy Carronade" class="cannon"></td>
+                </tr>
+                <tr id="mortar">
+                    <th>Mortar</th>
+                    <td><input type="number" name="Light Mortar" class="cannon"></td>
+                    <td><input type="number" name="Medium Mortar" class="cannon"></td>
+                    <td><input type="number" name="Heavy Mortar" class="cannon"></td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+    </div>
+    <div>
+        <table id="othercannontable">
+            <thead>
+                <tr id="cannons">
+                    <th>Cannons</th>
+                    <th class="Swivel" title="Swivel">Swivel</th>
+                    <th class="Poseidon Long Gun" title="Poseidon Long Gun">Poseidon Long Gun</th>
+                    <th class="Neptune Howitzer (Long Gun)" title="Neptune Howitzer (Long Gun)">Neptune Howitzer (Long
+                        Gun)
+                    </th>
+                    <th class="Neptune Twin Long Gun" title="Neptune Twin Long Gun">Neptune Twin Long Gun</th>
+                    <th class="Neptune Super Carronade" title="Neptune Super Carronade">Neptune Super Carronade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="cannon">
+                    <th>Cannon</th>
+                    <td><input type="number" name="Swivel" class="cannon"></td>
+                    <td><input type="number" name="Poseidon Long Gun" class="cannon"></td>
+                    <td><input type="number" name="Neptune Howitzer (Long Gun)" class="cannon"></td>
+                    <td><input type="number" name="Neptune Twin Long Gun" class="cannon"></td>
+                    <td><input type="number" name="Neptune Super Carronade" class="cannon"></td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+    </div>
+    <div>
+        Ship:
+        <select name="ships" class="ship type dropdown" id="ship-dropdown"></select>
+    </div>
+    <div>
+        <h1 id="shipcost">Ship cost:</h1>
+        <h1 id="cannoncost">Cannon cost:</h1>
+        <h1 id="totalcost">Total cost:</h1>
+        <h1 id="rawcost">Raw cost in doubloons:</h1>
+    </div>
+</body>
