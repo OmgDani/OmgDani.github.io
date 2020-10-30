@@ -134,7 +134,7 @@ function init() {
         option.text = ship
         dropdown.add(option);
     }
-
+    document.getElementById("ship-dropdown").value = "none"
     document.getElementById("engine-dropdown").value = "Blessed"
 
     document.getElementById("ship-dropdown").addEventListener("change", function (event) {

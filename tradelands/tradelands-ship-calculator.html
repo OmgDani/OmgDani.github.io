@@ -170,7 +170,11 @@
     </div>
     <div>
         Ship:
-        <select name="ships" class="ship type dropdown" id="ship-dropdown"></select>
+        <select name="ships" class="ship type dropdown" id="ship-dropdown">
+            <option value="none" selected disabled hidden>
+                Select a ship
+            </option>
+        </select>
     </div>
     <div>
         <h1 id="shipcost">Ship cost:</h1>
