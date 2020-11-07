@@ -33,7 +33,6 @@ function updateOuput() {
         cannonWood += cannon.value * tllist.cannons[cannon.name].wood
     }
 
-
     engines = getElbyIdVal("amount")
     if (dropdown.value != "none") {
         shipcost[getFirstElByClassVal("ship wood dropdown")] = ship.wood

@@ -3,6 +3,54 @@
     font-family: 'OpenDyslexic3', sans-serif;
 }
 
-body, input {
+body,
+input {
     font-family: "Balthazar";
+}
+
+body {
+    background-color: #d4d0b7;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+td {
+    border-left: 2px solid #757263;
+    border-right: 2px solid #757263;
+    border-radius: 5px;
+    background-color: #e5e0c1
+}
+
+td:hover,
+.top input:hover,
+select:hover {
+    background-color: #a09d87
+}
+
+input {
+    background: transparent;
+    border: none;
+}
+
+.top input {
+    border-left: 2px solid #757263;
+    border-right: 2px solid #757263;
+    border-radius: 5px;
+    background-color: #e5e0c1
+}
+
+select {
+    border-color: transparent;
+    border-left: 2px solid #757263;
+    border-right: 2px solid #757263;
+    border-radius: 5px;
+    background-color: #e5e0c1;
 }
