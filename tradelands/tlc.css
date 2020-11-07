@@ -58,3 +58,20 @@ select {
     text-indent: 1px;
     text-overflow: '';
 }
+
+.bg {
+    background-image: url(./tempbg.png);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    filter: blur(3px);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
