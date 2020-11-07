@@ -1,23 +1,5 @@
 window.addEventListener("load", init, false);
 
-let cannonWood = 0
-let cannonMetal = 0
-let totalcost = {}
-let shipcost = {}
-let cannoncost = {}
-let engines
-
-function calculateCannons() {
-    cannoncost = {}
-    cannonMetal = 0
-    cannonWood = 0
-
-    for (let cannon of document.getElementsByClassName("cannon")) {
-        cannonMetal += cannon.value * tllist.cannons[cannon.name].metal
-        cannonWood += cannon.value * tllist.cannons[cannon.name].wood
-    }
-}
-
 function outputCost(str, json) {
     for (let mat in json) {
         if (json[mat] != 0) {
@@ -36,10 +18,22 @@ function getFirstElByClassVal(element) {
 }
 
 function updateOuput() {
-    calculateCannons()
     let dropdown = document.getElementById("ship-dropdown");
     let rawcost = 0
+    let cannonWood = 0
+    let cannonMetal = 0
+    let engines = 0
+    let totalcost = {}
+    let shipcost = {}
+    let cannoncost = {}
     let ship = tllist.ships[dropdown.value]
+
+    for (let cannon of document.getElementsByClassName("cannon")) {
+        cannonMetal += cannon.value * tllist.cannons[cannon.name].metal
+        cannonWood += cannon.value * tllist.cannons[cannon.name].wood
+    }
+
+
     engines = getElbyIdVal("amount")
     if (dropdown.value != "none") {
         shipcost[getFirstElByClassVal("ship wood dropdown")] = ship.wood
