@@ -11,15 +11,8 @@ function calculateCannons() {
     cannoncost = {}
     cannonMetal = 0
     cannonWood = 0
-    let cannons = document.getElementById("cannontable")
-    let othercannons = document.getElementById("othercannontable")
 
-    for (let cannon of cannons.getElementsByClassName("cannon")) {
-        cannonMetal += cannon.value * tllist.cannons[cannon.name].metal
-        cannonWood += cannon.value * tllist.cannons[cannon.name].wood
-    }
-
-    for (let cannon of othercannons.getElementsByClassName("cannon")) {
+    for (let cannon of document.getElementsByClassName("cannon")) {
         cannonMetal += cannon.value * tllist.cannons[cannon.name].metal
         cannonWood += cannon.value * tllist.cannons[cannon.name].wood
     }
@@ -48,12 +41,11 @@ function updateOuput() {
     let rawcost = 0
     let ship = tllist.ships[dropdown.value]
     engines = getElbyIdVal("amount")
-    if (dropdown.value) {
+    if (dropdown.value != "none") {
         shipcost[getFirstElByClassVal("ship wood dropdown")] = ship.wood
         shipcost["Iron"] = ship.iron
         shipcost["Doubloons"] = ship.doubloons
         if (ship.extra) {
-
             switch (ship.extra[0]) {
                 case "Blessed Steam engine parts":
                     switch (getFirstElByClassVal("engine type dropdown")) {
@@ -102,13 +94,13 @@ function updateOuput() {
         rawcost = rawcost + ship.wood * getFirstElByClassVal("ship wood input") + shipcost["Iron"] * getFirstElByClassVal("ship iron input") + shipcost["Doubloons"]
 
     }
-    cannoncost[getFirstElByClassVal("cannon metal dropdown")] = cannonMetal
-    cannoncost[getFirstElByClassVal("cannon wood dropdown")] = cannonWood
+    cannoncost[getFirstElByClassVal("cannon-metal-dropdown")] = cannonMetal
+    cannoncost[getFirstElByClassVal("cannon-wood-dropdown")] = cannonWood
 
-    totalcost[getFirstElByClassVal("cannon metal dropdown")] = (totalcost[getFirstElByClassVal("cannon metal dropdown")] || 0) + cannonMetal
-    totalcost[getFirstElByClassVal("cannon wood dropdown")] = (totalcost[getFirstElByClassVal("cannon wood dropdown")] || 0) + cannonWood
+    totalcost[getFirstElByClassVal("cannon-metal-dropdown")] = (totalcost[getFirstElByClassVal("cannon-metal-dropdown")] || 0) + cannonMetal
+    totalcost[getFirstElByClassVal("cannon-wood-dropdown")] = (totalcost[getFirstElByClassVal("cannon-wood-dropdown")] || 0) + cannonWood
 
-    rawcost = rawcost + cannonWood * getFirstElByClassVal("cannon wood input") + cannonMetal * getFirstElByClassVal("cannon metal input")
+    rawcost = rawcost + cannonWood * getFirstElByClassVal("cannon-wood-input") + cannonMetal * getFirstElByClassVal("cannon-metal-input")
 
     document.getElementById("shipcost").innerHTML = outputCost("Ship cost:<br>", shipcost)
     document.getElementById("cannoncost").innerHTML = outputCost("Cannon cost:<br>", cannoncost)
@@ -157,19 +149,11 @@ function init() {
                 document.getElementById("iron").style.visibility = "visible"
                 updateOuput()
                 break;
-            case "Blessed":
-                document.getElementById("copper").placeholder = "cost per piece"
-                document.getElementById("coal").style.visibility = "hidden"
-                document.getElementById("iron").style.visibility = "hidden"
-                updateOuput()
-                break;
-            case "Un-Blessed":
-                document.getElementById("copper").placeholder = "cost per piece"
-                document.getElementById("coal").style.visibility = "hidden"
-                document.getElementById("iron").style.visibility = "hidden"
-                updateOuput()
-                break;
             default:
+                document.getElementById("copper").placeholder = "cost per piece"
+                document.getElementById("coal").style.visibility = "hidden"
+                document.getElementById("iron").style.visibility = "hidden"
+                updateOuput()
                 break;
         }
     });
