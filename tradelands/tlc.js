@@ -290,7 +290,7 @@ let tllist = {
             "doubloons": 29000
         },
         "Taipan": {
-            "wood": 400,
+            "wood": 420,
             "iron": 70,
             "doubloons": 35000,
             "extra": ["Taipan voucher", 1]
