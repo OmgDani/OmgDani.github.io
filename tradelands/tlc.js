@@ -1,12 +1,13 @@
 window.addEventListener("load", init, false);
 
-function outputCost(str, json) {
+function outputCost(element, json) {
+    let str = ""
     for (let mat in json) {
         if (json[mat] != 0) {
-            str += `${json[mat]} ${mat}<br>`
+            str += `${json[mat]} ${mat}\n`
         }
     }
-    return str
+    return document.getElementById(element).getElementsByClassName("outputcost")[0].innerHTML = str
 }
 
 function getElbyIdVal(element) {
@@ -95,9 +96,10 @@ function updateOuput() {
 
     rawcost = rawcost + cannonWood * getFirstElByClassVal("cannon-wood-input") + cannonMetal * getFirstElByClassVal("cannon-metal-input")
 
-    document.getElementById("shipcost").innerHTML = outputCost("Ship cost:<br>", shipcost)
-    document.getElementById("cannoncost").innerHTML = outputCost("Cannon cost:<br>", cannoncost)
-    document.getElementById("totalcost").innerHTML = outputCost("Total cost:<br>", totalcost)
+
+    outputCost("shipcost", shipcost)
+    outputCost("cannoncost", cannoncost)
+    outputCost("totalcost", totalcost)
     document.getElementById("rawcost").innerHTML = "Raw cost in doubloons:" + rawcost
     totalcost = {}
 }
@@ -124,8 +126,6 @@ function init() {
 
     document.getElementById("ship-dropdown").addEventListener("change", function (event) {
         shipcost = {}
-        let output = document.getElementById("shipcost")
-        output.innerHTML = "Ship cost:"
         if (tllist.ships[dropdown.value].extra && tllist.ships[dropdown.value].extra[0].includes("engine")) {
             document.getElementById("amount").value = tllist.ships[dropdown.value].extra[1]
         }
