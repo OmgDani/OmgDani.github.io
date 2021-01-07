@@ -79,3 +79,7 @@ select {
 .outputcost {
     white-space: break-spaces;
 }
+
+td .cannon {
+    width: 100%;
+}
