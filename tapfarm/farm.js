@@ -423,7 +423,7 @@ class FarmGame {
 
         this.grid.forEach(r => {
             r.forEach(c => {
-                if (c.wpm && c.water && c.muns && typeof c.cost == "number" && c.hpm) total += ((c.wpm + (c.wpm * waterbuff)) / c.water) * ((c.muns - c.cost) + ((c.muns - c.cost) * moneybuff))
+                if (c.wpm && c.water && c.muns && typeof c.cost == "number" && c.hpm) total += ((c.wpm + (c.wpm * waterbuff)) / c.water) * (c.muns + (c.muns * moneybuff) - c.cost)
             })
         })
         total = Math.round((total + Number.EPSILON) * 100) / 100
