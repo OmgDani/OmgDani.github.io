@@ -27,6 +27,12 @@
   display: block;
 }
 
+#savedata {
+  display: block;
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+
 #options {
   clear: both;
 }

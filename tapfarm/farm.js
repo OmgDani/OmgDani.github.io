@@ -136,6 +136,24 @@ class FarmGame {
                 cost: 750,
                 water: 1750
             },
+            "spring onion": {
+                name: "spring onion",
+                muns: 3000,
+                cost: 1000,
+                water: 2500
+            },
+            ginger: {
+                name: "ginger",
+                muns: 7000,
+                cost: 2500,
+                water: 5000
+            },
+            soybeans: {
+                name: "soybeans",
+                muns: 11000,
+                cost: 4000,
+                water: 7500
+            },
             pipe: {
                 class: "water",
                 name: "pipe",
@@ -152,9 +170,9 @@ class FarmGame {
                 apm: 12,
                 range: 2
             },
-            "harvester mk1": {
+            "autoharvester mk1": {
                 class: "harvester",
-                name: "harvester mk1",
+                name: "autoharvester mk1",
                 muns: 2000,
                 apm: 6,
                 range: 1
@@ -189,9 +207,9 @@ class FarmGame {
                 apm: 3,
                 range: 2
             },
-            "harvester mk3": {
+            "autoharvester mk3": {
                 class: "harvester",
-                name: "harvester mk3",
+                name: "autoharvester mk3",
                 muns: 5000,
                 apm: 6,
                 range: 2
@@ -203,7 +221,21 @@ class FarmGame {
                 water: 5,
                 apm: 15,
                 range: 4
-            }
+            },
+            "autoharvester mk5": {
+                class: "harvester",
+                name: "autoharvester mk5",
+                muns: 150000,
+                apm: 12,
+                range: 3
+            },
+            "overclocked autoplanter": {
+                class: "planter",
+                name: "overclocked autoplanter",
+                muns: 100000,
+                apm: 12,
+                range: 1
+            },
         }
         this.ascensions = {
             "2x Money": 1,
@@ -265,7 +297,7 @@ class FarmGame {
         for (let item in this.items) {
             let option = document.createElement("option")
             option.innerText = item
-            if(this.gold.includes(item)) {
+            if (this.gold.includes(item)) {
                 option.style.color = "gold"
             }
             this.select.add(option)
@@ -278,7 +310,9 @@ class FarmGame {
             label.className = "buffLabel"
             btn.className = "buff"
             btn.type = "checkbox"
-            btn.addEventListener("change", e => {this.calculate()})
+            btn.addEventListener("change", e => {
+                this.calculate()
+            })
             label.appendChild(btn)
             this.ascensionsbtns.appendChild(label)
         }
@@ -378,8 +412,12 @@ class FarmGame {
                     if (plot.wpm == 0) delete plot.wpm;
                     break;
                 case "harvester":
-                    plot.hpm = plot.hpm - removed.apm
-                    if (plot.hpm == 0) delete plot.hpm;
+                    plot.hpm.splice(plot.hpm.indexOf(removed.apm), 1)
+                    if (plot.hpm.length == 0) delete plot.hpm;
+                    break;
+                case "planter":
+                    plot.ppm.splice(plot.ppm.indexOf(removed.apm), 1)
+                    if (plot.ppm.length == 0) delete plot.ppm;
                     break;
             }
             if (div.dataset[`${type}s`] == 0) {
@@ -395,7 +433,10 @@ class FarmGame {
                     obj.wpm = plot.wpm + this.selectedItem.apm * this.selectedItem.water || this.selectedItem.apm * this.selectedItem.water
                     break;
                 case "harvester":
-                    obj.hpm = plot.hpm + this.selectedItem.apm || this.selectedItem.apm
+                    typeof plot.hpm == "object" ? plot.hpm.push(this.selectedItem.apm) : plot.hpm = [this.selectedItem.apm]
+                    break;
+                case "planter":
+                    typeof plot.ppm == "object" ? plot.ppm.push(this.selectedItem.apm) : plot.ppm = [this.selectedItem.apm]
                     break;
             }
             Object.assign(plot, obj)
@@ -409,24 +450,71 @@ class FarmGame {
         let moneybuff = 0
         let waterbuff = 0
         for (let btn in btns) {
-            if(btns[btn]?.checked) {
+            if (btns[btn]?.checked) {
                 let buffAmt = this.ascensions[btns[btn].parentElement.innerText.replace(":", "")]
                 let buffTxt = btns[btn].parentElement.innerText
-                if(buffTxt.includes("Money") || buffTxt.includes("Extra Earnings")) {
+                if (buffTxt.includes("Money") || buffTxt.includes("Extra Earnings")) {
                     moneybuff += buffAmt
-                } else if(buffTxt.includes("Watering Power")) {
+                } else if (buffTxt.includes("Watering Power")) {
                     waterbuff += buffAmt
                 }
-                
+
             }
         }
 
+
         this.grid.forEach(r => {
             r.forEach(c => {
-                if (c.wpm && c.water && c.muns && typeof c.cost == "number" && c.hpm) total += ((c.wpm + (c.wpm * waterbuff)) / c.water) * (c.muns + (c.muns * moneybuff) - c.cost)
+                if (c.wpm && c.water && c.muns && typeof c.cost == "number" && c.hpm && c.ppm) {
+                    // clean hpm and ppm arrays
+                    let hpmSeconds = []
+                    let ppmSeconds = []
+                    c.hpm.forEach(t => {
+                        for (let i = 1; i <= t; i++) {
+                            hpmSeconds.push((60 / t) * i)
+                        }
+                    })
+                    c.ppm.forEach(t => {
+                        for (let i = 1; i <= t; i++) {
+                            ppmSeconds.push((60 / t) * i)
+                        }
+                    })
+                    let hpmTimings = [...new Set(hpmSeconds)]
+                    let ppmTimings = [...new Set(ppmSeconds)]
+                    // need water per second, copy of plant for watering
+                    let wps = (c.wpm + (c.wpm * waterbuff)) / 60
+                    let waterneeded = c.water
+                    let harvestable = false
+                    let harvested = false
+                    let planted = true
+                    let t = 0
+                    for (let i = 1; i <= 300; i++) {
+                        // water plant
+                        t++
+                        if (!harvested) waterneeded -= wps
+                        if (waterneeded <= 0 && planted) harvestable = true
+                        // harvest if possible
+                        if (harvestable && hpmTimings.includes(t)) {
+                            total += (c.muns + (c.muns * moneybuff)) - c.cost
+                            harvested = true
+                            harvestable = false
+                            planted = false
+                        }
+                        // plant if possible
+                        if (harvested && !planted && ppmTimings.includes(t)) {
+                            harvested = false
+                            waterneeded = c.water
+                            planted = true
+                        }
+                        if (i % 60 == 0) {
+                            t = 0
+                        }
+                    }
+                    // total += ((c.wpm + (c.wpm * waterbuff)) / c.water) * ((c.muns - c.cost) + ((c.muns - c.cost) * moneybuff))
+                }
             })
         })
-        total = Math.round((total + Number.EPSILON) * 100) / 100
+        total = Math.round((total + Number.EPSILON) * 100) / 100 / 5
         total >= parseInt(mpm.innerText) ? mpm.style.setProperty("color", "green") : mpm.style.setProperty("color", "red")
         mpm.innerText = total
     }
@@ -435,22 +523,18 @@ class FarmGame {
         let arr = this.grid.flat()
         let data = []
         let amount = 0
-        let type = ""
+        let type = undefined
         arr.forEach(p => {
-            if (type == "") {
+            if (type != p?.name) {
+                if (amount > 0) data.push(`${type == undefined ? "" : type}*${amount}`)
+                amount = 1
                 type = p?.name
-                amount++
             } else if (type == p?.name) {
-                amount++
-            } else if (type != p?.name) {
-                data.push(`${type == undefined ? "" : type}*${amount}`)
-                amount = 0
-                type = p?.name ? p.name : ""
                 amount++
             }
         })
         data.push(`${type == undefined ? "" : type}*${amount}`)
-        alert(data)
+        document.getElementById("savedata").innerText = data
     }
 
     load() {
