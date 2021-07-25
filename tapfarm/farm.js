@@ -229,6 +229,14 @@ class FarmGame {
                 apm: 12,
                 range: 3
             },
+            "cloud generator mk1": {
+                class: "water",
+                name: "cloud generator mk1",
+                muns: 85000,
+                water: 5,
+                apm: 60,
+                range: 2
+            },
             "overclocked autoplanter": {
                 class: "planter",
                 name: "overclocked autoplanter",
@@ -236,6 +244,22 @@ class FarmGame {
                 apm: 12,
                 range: 1
             },
+            "cloud generator mk3": {
+                class: "water",
+                name: "cloud generator mk3",
+                muns: 350000,
+                water: 5,
+                apm: 60,
+                range: 3
+            },
+            "cloud generator mk4": {
+                class: "water",
+                name: "cloud generator mk4",
+                muns: 1000000,
+                water: 10,
+                apm: 60,
+                range: 4
+            }
         }
         this.ascensions = {
             "2x Money": 1,
@@ -251,7 +275,7 @@ class FarmGame {
         }
         // for(let item in this.items) {
         //     let plant = this.items[item]
-        //     if (plant.cost) {
+        //     if (plant.cost >= 0) {
         //         console.log(item,(plant.muns-plant.cost)/plant.water)
         //     }
         // }
@@ -462,11 +486,9 @@ class FarmGame {
             }
         }
 
-
         this.grid.forEach(r => {
             r.forEach(c => {
                 if (c.wpm && c.water && c.muns && typeof c.cost == "number" && c.hpm && c.ppm) {
-                    // clean hpm and ppm arrays
                     let hpmSeconds = []
                     let ppmSeconds = []
                     c.hpm.forEach(t => {
@@ -481,7 +503,6 @@ class FarmGame {
                     })
                     let hpmTimings = [...new Set(hpmSeconds)]
                     let ppmTimings = [...new Set(ppmSeconds)]
-                    // need water per second, copy of plant for watering
                     let wps = (c.wpm + (c.wpm * waterbuff)) / 60
                     let waterneeded = c.water
                     let harvestable = false
@@ -489,18 +510,15 @@ class FarmGame {
                     let planted = true
                     let t = 0
                     for (let i = 1; i <= 300; i++) {
-                        // water plant
                         t++
                         if (!harvested) waterneeded -= wps
                         if (waterneeded <= 0 && planted) harvestable = true
-                        // harvest if possible
                         if (harvestable && hpmTimings.includes(t)) {
                             total += (c.muns + (c.muns * moneybuff)) - c.cost
                             harvested = true
                             harvestable = false
                             planted = false
                         }
-                        // plant if possible
                         if (harvested && !planted && ppmTimings.includes(t)) {
                             harvested = false
                             waterneeded = c.water
@@ -510,7 +528,6 @@ class FarmGame {
                             t = 0
                         }
                     }
-                    // total += ((c.wpm + (c.wpm * waterbuff)) / c.water) * ((c.muns - c.cost) + ((c.muns - c.cost) * moneybuff))
                 }
             })
         })
