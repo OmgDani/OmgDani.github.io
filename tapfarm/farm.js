@@ -233,8 +233,8 @@ class FarmGame {
                 class: "water",
                 name: "cloud generator mk1",
                 muns: 85000,
-                water: 5,
-                apm: 60,
+                water: 25,
+                apm: 12,
                 range: 2
             },
             "overclocked autoplanter": {
@@ -248,16 +248,16 @@ class FarmGame {
                 class: "water",
                 name: "cloud generator mk3",
                 muns: 350000,
-                water: 5,
-                apm: 60,
+                water: 25,
+                apm: 12,
                 range: 3
             },
             "cloud generator mk4": {
                 class: "water",
                 name: "cloud generator mk4",
                 muns: 1000000,
-                water: 10,
-                apm: 60,
+                water: 50,
+                apm: 12,
                 range: 4
             }
         }
