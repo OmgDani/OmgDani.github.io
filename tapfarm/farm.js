@@ -343,8 +343,18 @@ class FarmGame {
         this.select.addEventListener("change", this.itemChange)
         document.getElementById("save").addEventListener("click", this.save)
         document.getElementById("load").addEventListener("click", this.load)
+        document.getElementById("theme").addEventListener("click", this.theme)
     }
 
+    theme() {
+        if(document.body.className == "dark") {
+            document.body.setAttribute("class", "light")
+            document.getElementById("theme").innerText = "Light"
+        } else {
+            document.body.setAttribute("class", "dark")
+            document.getElementById("theme").innerText = "Dark"
+        }
+    }
 
     makeGridArray(rows, cols) {
         const grid = Array(rows);
