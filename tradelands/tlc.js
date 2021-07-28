@@ -375,21 +375,10 @@ let tllist = {
             "iron": 130,
             "doubloons": 70000
         },
-        "Atlas": {
-            "wood": 900,
-            "iron": 200,
-            "doubloons": 84000
-        },
-        "Astraeus": {
+        "Mastiff": {
             "wood": 920,
             "iron": 240,
             "doubloons": 88000
-        },
-        "Prometheus": {
-            "wood": 980,
-            "iron": 320,
-            "doubloons": 150000,
-            "extra": ["Blessed Steam engine parts", 5]
         },
         "Osprey": {
             "wood": 960,
@@ -406,6 +395,11 @@ let tllist = {
             "iron": 200,
             "doubloons": 85000,
             "extra": ["Kraken voucher", 1]
+        },
+        "Pigeon": {
+            "wood": 1400,
+            "iron": 280,
+            "doubloons": 700000
         },
         "Alliance (Pine Deck)": {
             "wood": 1500,
@@ -437,6 +431,23 @@ let tllist = {
             "doubloons": 2000000,
             "extra": ["Advanced engine", 1]
         },
+        "Mule": {
+            "wood": 1150,
+            "iron": 240,
+            "doubloons": 275000
+        },
+        "Camel (Pine Deck)": {
+            "wood": 1350,
+            "iron": 270,
+            "doubloons": 650000,
+            "extra": ["Pine decking", 1]
+        },
+        "Camel (Spruce Deck)": {
+            "wood": 1350,
+            "iron": 270,
+            "doubloons": 650000,
+            "extra": ["Spruce decking", 1]
+        }
     },
     "cannons": {
         "Light Long Gun": {
