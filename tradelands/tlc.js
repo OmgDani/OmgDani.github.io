@@ -195,7 +195,7 @@ let tllist = {
         "Heron": {
             "wood": 80,
             "iron": 25,
-            "doubloons": 25
+            "doubloons": 5000
         },
         "Koi": {
             "wood": 60,
