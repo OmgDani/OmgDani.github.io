@@ -1,13 +1,17 @@
+// tragically awful coding
+// i should just scrap all this and start again
 window.addEventListener("load", init, false);
 
 function outputCost(element, json) {
     let str = ""
     for (let mat in json) {
-        if (json[mat] != 0) {
-            str += `${json[mat]} ${mat}\n`
+        if (json[mat] != 0 && Array.isArray(json[mat]) == false) {
+            str += `${new Intl.NumberFormat().format(json[mat])} ${mat}\n`
+        } else if (json[mat][0] != 0 && json[mat] != 0) {
+            str += `${json[mat][0]} ${mat} (${new Intl.NumberFormat().format(json[mat][0]*json[mat][1])}dbs, ${json[mat][1]}pp)\n`
         }
     }
-    return document.getElementById(element).getElementsByClassName("outputcost")[0].innerHTML = str
+    return document.getElementById(element).innerHTML = str
 }
 
 function getElbyIdVal(element) {
@@ -36,72 +40,95 @@ function updateOuput() {
 
     engines = getElbyIdVal("amount")
     if (dropdown.value != "none") {
-        shipcost[getFirstElByClassVal("ship wood dropdown")] = ship.wood
-        shipcost["Iron"] = ship.iron
+        shipcost[getFirstElByClassVal("ship wood dropdown")] = [ship.wood, getFirstElByClassVal("ship wood input") || 0]
+        shipcost["Iron"] = [ship.iron, getFirstElByClassVal("ship iron input") || 0]
         shipcost["Doubloons"] = ship.doubloons
         if (ship.extra) {
             switch (ship.extra[0]) {
                 case "Blessed Steam engine parts":
+                    document.getElementById("engine-dropdown")[0].innerHTML = "Blessed"
                     switch (getFirstElByClassVal("engine type dropdown")) {
                         case "Raw":
                             for (mat in tllist.other["Raw Blessed"]) {
-                                totalcost[mat] = tllist.other["Raw Blessed"][mat] * engines
+                                if (document.getElementById(mat.toLowerCase()) != null) {
+                                    totalcost[mat] = [tllist.other["Raw Blessed"][mat] * engines, document.getElementById(mat.toLowerCase()).value || 0]
+                                } else {
+                                    totalcost[mat] = tllist.other["Raw Blessed"][mat] * engines
+                                }
                             }
-                            rawcost = rawcost + totalcost.Iron * getElbyIdVal("iron") + totalcost.Coal * getElbyIdVal("coal") + totalcost.Copper * getElbyIdVal("copper")
                             break;
                         case "Blessed":
-                            totalcost[ship.extra[0]] = engines
-                            rawcost = engines * getElbyIdVal("copper")
+                            totalcost[ship.extra[0]] = [engines, document.getElementById("copper").value || 0]
                             break;
                         case "Un-Blessed":
-                            totalcost["Steam engine parts"] = engines
+                            totalcost["Steam engine parts"] = [engines, document.getElementById("copper").value || 0]
                             totalcost["Loyalty Tokens"] = engines * 3
-                            rawcost = engines * getElbyIdVal("copper")
                             break;
                         default:
                             break;
                     }
                     break;
+                case "Advanced engine":
+                    document.getElementById("engine-dropdown")[0].innerHTML = "Advanced"
+                    shipcost[ship.extra[0]] = [ship.extra[1], document.getElementById("copper").value || 0]
+                    break;
                 case "Premium Tokens":
-                    shipcost[ship.extra[0]] = ship.extra[1]
-                    totalcost[ship.extra[0]] = ship.extra[1]
-                    rawcost = rawcost + ship.extra[1] * getFirstElByClassVal("prems cost")
+                    shipcost[ship.extra[0]] = [ship.extra[1], document.getElementsByName("prems")[0].value || 0]
                     break;
                 case "Spruce decking":
                 case "Pine decking":
                     shipcost[ship.extra[0]] = ship.extra[1]
                     for (let mat in tllist.other[ship.extra[0]]) {
-                        totalcost[mat] = tllist.other[ship.extra[0]][mat] * ship.extra[1]
+                        if (mat == "Premium Tokens") {
+                            totalcost[mat] = [tllist.other[ship.extra[0]][mat] * ship.extra[1], document.getElementsByName("prems")[0].value || 0]
+                        } else {
+                            totalcost[mat] = tllist.other[ship.extra[0]][mat] * ship.extra[1]
+                        }
                     }
-                    rawcost = rawcost + totalcost["Premium Tokens"] * getFirstElByClassVal("prems cost")
                     break;
                 default:
                     shipcost[ship.extra[0]] = ship.extra[1]
-                    totalcost[ship.extra[0]] = ship.extra[1]
                     break;
             }
         }
-        totalcost[getFirstElByClassVal("ship wood dropdown")] = (totalcost[getFirstElByClassVal("ship wood dropdown")] || 0) + ship.wood
-        totalcost["Iron"] = (totalcost["Iron"] || 0) + ship.iron
-        totalcost["Doubloons"] = (totalcost["Doubloons"] || 0) + ship.doubloons
-
-        rawcost = rawcost + ship.wood * getFirstElByClassVal("ship wood input") + shipcost["Iron"] * getFirstElByClassVal("ship iron input") + shipcost["Doubloons"]
 
     }
-    cannoncost[getFirstElByClassVal("cannon-metal-dropdown")] = cannonMetal
-    cannoncost[getFirstElByClassVal("cannon-wood-dropdown")] = cannonWood
+    cannoncost[getFirstElByClassVal("cannon-metal-dropdown")] = [cannonMetal, getFirstElByClassVal("cannon-metal-input") || 0]
+    cannoncost[getFirstElByClassVal("cannon-wood-dropdown")] = [cannonWood, getFirstElByClassVal("cannon-wood-input") || 0]
 
-    totalcost[getFirstElByClassVal("cannon-metal-dropdown")] = (totalcost[getFirstElByClassVal("cannon-metal-dropdown")] || 0) + cannonMetal
-    totalcost[getFirstElByClassVal("cannon-wood-dropdown")] = (totalcost[getFirstElByClassVal("cannon-wood-dropdown")] || 0) + cannonWood
+    for (mat in shipcost) {
+        if (Array.isArray(totalcost[mat])) {
+            totalcost[mat][0] += shipcost[mat][0]
+        } else {
+            totalcost[mat] = JSON.parse(JSON.stringify(shipcost[mat]))
+        }
+    }
 
-    rawcost = rawcost + cannonWood * getFirstElByClassVal("cannon-wood-input") + cannonMetal * getFirstElByClassVal("cannon-metal-input")
+    for (mat in cannoncost) {
+        if (Array.isArray(totalcost[mat])) {
+            totalcost[mat][0] += cannoncost[mat][0]
+        } else {
+            totalcost[mat] = JSON.parse(JSON.stringify(cannoncost[mat]))
+        }
+    }
 
+
+    delete totalcost["Pine decking"]
+    delete totalcost["Spruce decking"]
+
+    for (el in totalcost) {
+        if (Array.isArray(totalcost[el])) {
+            rawcost += totalcost[el][0] * totalcost[el][1]
+        }
+    }
+    rawcost += totalcost["Doubloons"]
 
     outputCost("shipcost", shipcost)
     outputCost("cannoncost", cannoncost)
     outputCost("totalcost", totalcost)
-    document.getElementById("rawcost").innerHTML = "Raw cost in doubloons:" + rawcost
-    totalcost = {}
+
+    document.getElementById("rawcost").innerHTML = new Intl.NumberFormat().format(rawcost)
+    // totalcost = {}
 }
 
 function init() {
@@ -129,7 +156,7 @@ function init() {
         if (tllist.ships[dropdown.value].extra && tllist.ships[dropdown.value].extra[0].includes("engine")) {
             document.getElementById("amount").value = tllist.ships[dropdown.value].extra[1]
         }
-        updateOuput()
+        updateOuput();
     });
 
     document.getElementById("engine-dropdown").addEventListener("change", function (event) {
@@ -140,16 +167,40 @@ function init() {
                 document.getElementById("iron").placeholder = "iron cost per piece"
                 document.getElementById("coal").style.visibility = "visible"
                 document.getElementById("iron").style.visibility = "visible"
-                updateOuput()
+                document.getElementById("iron").value = document.getElementsByName("shipiron")[0].value
                 break;
             default:
                 document.getElementById("copper").placeholder = "cost per piece"
                 document.getElementById("coal").style.visibility = "hidden"
                 document.getElementById("iron").style.visibility = "hidden"
-                updateOuput()
                 break;
         }
+        updateOuput();
     });
+
+    document.getElementsByName("shipwood")
+        .forEach(e => e.addEventListener("change", function (event) {
+            if (document.getElementsByName("shipwood")[0].previousElementSibling.selectedIndex == document.getElementsByName("shipwood")[1].previousElementSibling.selectedIndex) {
+                if (document.getElementsByName("shipwood")[0] == e) {
+                    document.getElementsByName("shipwood")[1].value = e.value
+                } else {
+                    document.getElementsByName("shipwood")[0].value = e.value
+                }
+                updateOuput();
+            }
+        }));
+
+    document.querySelectorAll(".ship.iron.input, .cannon-metal-input")
+        .forEach(e => e.addEventListener("change", function (event) {
+            if (document.getElementsByName("cannonmetal")[0].previousElementSibling.selectedIndex == 0) {
+                if (document.getElementsByName("cannonmetal")[0] == e) {
+                    document.getElementsByName("shipiron")[0].value = e.value
+                } else {
+                    document.getElementsByName("cannonmetal")[0].value = e.value
+                }
+                updateOuput();
+            }
+        }));
 }
 
 
@@ -195,7 +246,7 @@ let tllist = {
         "Heron": {
             "wood": 80,
             "iron": 25,
-            "doubloons": 25
+            "doubloons": 5000
         },
         "Koi": {
             "wood": 60,
@@ -379,6 +430,22 @@ let tllist = {
             "wood": 920,
             "iron": 240,
             "doubloons": 88000
+        },
+        "Atlas": {
+            "wood": 900,
+            "iron": 200,
+            "doubloons": 84000
+        },
+        "Astraeus": {
+            "wood": 920,
+            "iron": 240,
+            "doubloons": 88000
+        },
+        "Prometheus": {
+            "wood": 980,
+            "iron": 320,
+            "doubloons": 150000,
+            "extra": ["Blessed Steam engine parts", 5]
         },
         "Osprey": {
             "wood": 960,

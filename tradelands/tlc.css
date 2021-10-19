@@ -78,8 +78,9 @@ select {
 
 .outputcost {
     white-space: break-spaces;
+    font-size: 26px;
 }
 
-td .cannon {
-    width: 100%;
+.outputHeader {
+    text-decoration-line: underline;
 }
