@@ -487,8 +487,8 @@ let tllist = {
             "extra": ["Advanced engine", 1]
         },
         "Neptune": {
-            "wood": 800,
-            "iron": 1500,
+            "wood": 500,
+            "iron": 2500,
             "doubloons": 1000000,
             "extra": ["Advanced engine", 1]
         },
