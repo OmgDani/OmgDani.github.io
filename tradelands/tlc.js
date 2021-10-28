@@ -121,13 +121,13 @@ function updateOuput() {
             rawcost += totalcost[el][0] * totalcost[el][1]
         }
     }
-    rawcost += totalcost["Doubloons"]
+    rawcost += totalcost["Doubloons"] ?? 0
 
     outputCost("shipcost", shipcost)
     outputCost("cannoncost", cannoncost)
     outputCost("totalcost", totalcost)
 
-    document.getElementById("rawcost").innerHTML = new Intl.NumberFormat().format(rawcost)
+    document.getElementById("rawcost").innerHTML = new Intl.NumberFormat().format(rawcost) == 0 ? "" : new Intl.NumberFormat().format(rawcost)
     // totalcost = {}
 }
 
