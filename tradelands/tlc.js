@@ -44,54 +44,55 @@ function updateOuput() {
         shipcost["Iron"] = [ship.iron, getFirstElByClassVal("ship iron input") || 0]
         shipcost["Doubloons"] = ship.doubloons
         if (ship.extra) {
-            switch (ship.extra[0]) {
-                case "Blessed Steam engine parts":
-                    document.getElementById("engine-dropdown")[0].innerHTML = "Blessed"
-                    switch (getFirstElByClassVal("engine type dropdown")) {
-                        case "Raw":
-                            for (mat in tllist.other["Raw Blessed"]) {
-                                if (document.getElementById(mat.toLowerCase()) != null) {
-                                    totalcost[mat] = [tllist.other["Raw Blessed"][mat] * engines, document.getElementById(mat.toLowerCase()).value || 0]
-                                } else {
-                                    totalcost[mat] = tllist.other["Raw Blessed"][mat] * engines
+            for (i in ship.extra) {
+                switch (i) {
+                    case "Blessed Steam engine parts":
+                        document.getElementById("engine-dropdown")[0].innerHTML = "Blessed"
+                        switch (getFirstElByClassVal("engine type dropdown")) {
+                            case "Raw":
+                                for (mat in tllist.other["Raw Blessed"]) {
+                                    if (document.getElementById(mat.toLowerCase()) != null) {
+                                        totalcost[mat] = [tllist.other["Raw Blessed"][mat] * engines, document.getElementById(mat.toLowerCase()).value || 0]
+                                    } else {
+                                        totalcost[mat] = tllist.other["Raw Blessed"][mat] * engines
+                                    }
                                 }
-                            }
-                            break;
-                        case "Blessed":
-                            totalcost[ship.extra[0]] = [engines, document.getElementById("copper").value || 0]
-                            break;
-                        case "Un-Blessed":
-                            totalcost["Steam engine parts"] = [engines, document.getElementById("copper").value || 0]
-                            totalcost["Loyalty Tokens"] = engines * 3
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case "Advanced engine":
-                    document.getElementById("engine-dropdown")[0].innerHTML = "Advanced"
-                    shipcost[ship.extra[0]] = [ship.extra[1], document.getElementById("copper").value || 0]
-                    break;
-                case "Premium Tokens":
-                    shipcost[ship.extra[0]] = [ship.extra[1], document.getElementsByName("prems")[0].value || 0]
-                    break;
-                case "Spruce decking":
-                case "Pine decking":
-                    shipcost[ship.extra[0]] = ship.extra[1]
-                    for (let mat in tllist.other[ship.extra[0]]) {
-                        if (mat == "Premium Tokens") {
-                            totalcost[mat] = [tllist.other[ship.extra[0]][mat] * ship.extra[1], document.getElementsByName("prems")[0].value || 0]
-                        } else {
-                            totalcost[mat] = tllist.other[ship.extra[0]][mat] * ship.extra[1]
+                                break;
+                            case "Blessed":
+                                totalcost[i] = [engines, document.getElementById("copper").value || 0]
+                                break;
+                            case "Un-Blessed":
+                                totalcost["Steam engine parts"] = [engines, document.getElementById("copper").value || 0]
+                                totalcost["Loyalty Tokens"] = engines * 3
+                                break;
+                            default:
+                                break;
                         }
-                    }
-                    break;
-                default:
-                    shipcost[ship.extra[0]] = ship.extra[1]
-                    break;
+                        break;
+                    case "Advanced engine":
+                        document.getElementById("engine-dropdown")[0].innerHTML = "Advanced"
+                        shipcost[i] = [ship.extra[i], document.getElementById("copper").value || 0]
+                        break;
+                    case "Premium Tokens":
+                        shipcost[i] = [ship.extra[i], document.getElementsByName("prems")[0].value || 0]
+                        break;
+                    case "Spruce decking":
+                    case "Pine decking":
+                        shipcost[i] = ship.extra[i]
+                        for (let mat in tllist.other[i]) {
+                            if (mat == "Premium Tokens") {
+                                totalcost[mat] = [tllist.other[i][mat] * ship.extra[i], document.getElementsByName("prems")[0].value || 0]
+                            } else {
+                                totalcost[mat] = tllist.other[i][mat] * ship.extra[i]
+                            }
+                        }
+                        break;
+                    default:
+                        shipcost[i] = ship.extra[i]
+                        break;
+                }
             }
         }
-
     }
     cannoncost[getFirstElByClassVal("cannon-metal-dropdown")] = [cannonMetal, getFirstElByClassVal("cannon-metal-input") || 0]
     cannoncost[getFirstElByClassVal("cannon-wood-dropdown")] = [cannonWood, getFirstElByClassVal("cannon-wood-input") || 0]
@@ -153,8 +154,10 @@ function init() {
 
     document.getElementById("ship-dropdown").addEventListener("change", function (event) {
         shipcost = {}
-        if (tllist.ships[dropdown.value].extra && tllist.ships[dropdown.value].extra[0].includes("engine")) {
-            document.getElementById("amount").value = tllist.ships[dropdown.value].extra[1]
+        if (tllist.ships[dropdown.value].extra) {
+            for (i in tllist.ships[dropdown.value].extra) {
+                if (i.includes("engine")) document.getElementById("amount").value = tllist.ships[dropdown.value].extra[i]
+            }
         }
         updateOuput();
     });
@@ -216,17 +219,30 @@ let tllist = {
             "iron": 0,
             "doubloons": 500
         },
+        "Steam Titan": {
+            "wood": 25,
+            "iron": 10,
+            "doubloons": 0,
+            "extra": {
+                "Empty barrel": 1,
+                "Blessed Steam engine parts": 1
+            }
+        },
         "Titan": {
             "wood": 25,
             "iron": 10,
             "doubloons": 0,
-            "extra": ["Empty barrel", 1]
+            "extra": {
+                "Empty barrel": 1
+            }
         },
         "Mortar Platform": {
             "wood": 100,
             "iron": 20,
             "doubloons": 0,
-            "extra": ["Mortar platform voucher", 1]
+            "extra": {
+                "Mortar platform voucher": 1
+            }
         },
         "Sparrow": {
             "wood": 40,
@@ -257,7 +273,9 @@ let tllist = {
             "wood": 100,
             "iron": 20,
             "doubloons": 0,
-            "extra": ["Mortar platform voucher", 2]
+            "extra": {
+                "Mortar platform voucher": 2
+            }
         },
         "Starling": {
             "wood": 130,
@@ -287,7 +305,10 @@ let tllist = {
         "Tetra": {
             "wood": 150,
             "iron": 40,
-            "doubloons": 40000
+            "doubloons": 40000,
+            "extra": {
+                "Premium Tokens": 50
+            }
         },
         "Kestral": {
             "wood": 280,
@@ -333,7 +354,9 @@ let tllist = {
             "wood": 330,
             "iron": 60,
             "doubloons": 45000,
-            "extra": ["Blessed Steam engine parts", 2]
+            "extra": {
+                "Blessed Steam engine parts": 2
+            }
         },
         "Maurader": {
             "wood": 400,
@@ -344,12 +367,22 @@ let tllist = {
             "wood": 420,
             "iron": 70,
             "doubloons": 35000,
-            "extra": ["Taipan voucher", 1]
+            "extra": {
+                "Taipan voucher": 1
+            }
         },
         "Goose": {
             "wood": 450,
             "iron": 80,
             "doubloons": 34500
+        },
+        "esooG": {
+            "wood": 450,
+            "iron": 80,
+            "doubloons": 34500,
+            "extra": {
+                "Premium Tokens": 800
+            }
         },
         "Widgeon": {
             "wood": 450,
@@ -360,7 +393,9 @@ let tllist = {
             "wood": 450,
             "iron": 0,
             "doubloons": 45000,
-            "extra": ["Blessed Steam engine parts", 2]
+            "extra": {
+                "Blessed Steam engine parts": 2
+            }
         },
         "Beaver": {
             "wood": 540,
@@ -381,7 +416,9 @@ let tllist = {
             "wood": 660,
             "iron": 100,
             "doubloons": 64000,
-            "extra": ["Blessed Steam engine parts", 4]
+            "extra": {
+                "Blessed Steam engine parts": 4
+            }
         },
         "Stiletto": {
             "wood": 660,
@@ -397,7 +434,9 @@ let tllist = {
             "wood": 650,
             "iron": 115,
             "doubloons": 60000,
-            "extra": ["Premium Tokens", 500]
+            "extra": {
+                "Premium Tokens": 500
+            }
         },
         "Badger": {
             "wood": 550,
@@ -408,7 +447,9 @@ let tllist = {
             "wood": 550,
             "iron": 600,
             "doubloons": 75000,
-            "extra": ["Blessed Steam engine parts", 4]
+            "extra": {
+                "Blessed Steam engine parts": 4
+            }
         },
         "Steam Fish": {
             "wood": 500,
@@ -419,17 +460,14 @@ let tllist = {
             "wood": 720,
             "iron": 50,
             "doubloons": 0,
-            "extra": ["Mark of the Nahrluminati", 1]
+            "extra": {
+                "Mark of the Nahrluminati": 1
+            }
         },
         "Tyrant": {
             "wood": 650,
             "iron": 130,
             "doubloons": 70000
-        },
-        "Mastiff": {
-            "wood": 920,
-            "iron": 240,
-            "doubloons": 88000
         },
         "Atlas": {
             "wood": 900,
@@ -445,7 +483,9 @@ let tllist = {
             "wood": 980,
             "iron": 320,
             "doubloons": 150000,
-            "extra": ["Blessed Steam engine parts", 5]
+            "extra": {
+                "Blessed Steam engine parts": 5
+            }
         },
         "Osprey": {
             "wood": 960,
@@ -461,42 +501,49 @@ let tllist = {
             "wood": 900,
             "iron": 200,
             "doubloons": 85000,
-            "extra": ["Kraken voucher", 1]
-        },
-        "Pigeon": {
-            "wood": 1400,
-            "iron": 280,
-            "doubloons": 700000
+            "extra": {
+                "Kraken voucher": 1
+            }
         },
         "Alliance (Pine Deck)": {
             "wood": 1500,
             "iron": 300,
             "doubloons": 1200000,
-            "extra": ["Pine decking", 5]
+            "extra": {
+                "Pine decking": 5
+            }
         },
         "Alliance (Spruce Deck)": {
             "wood": 1500,
             "iron": 300,
             "doubloons": 1200000,
-            "extra": ["Spruce decking", 5]
+            "extra": {
+                "Spruce decking": 5
+            }
         },
         "Poseidon": {
             "wood": 800,
             "iron": 1500,
             "doubloons": 500000,
-            "extra": ["Advanced engine", 1]
+            "extra": {
+                "Advanced engine": 1
+            }
         },
         "Neptune": {
-            "wood": 500,
-            "iron": 2500,
+            "wood": 800,
+            "iron": 1500,
             "doubloons": 1000000,
-            "extra": ["Advanced engine", 1]
+            "extra": {
+                "Advanced engine": 1
+            }
         },
         "Binglehopper": {
             "wood": 550,
             "iron": 2600,
             "doubloons": 2000000,
-            "extra": ["Advanced engine", 1]
+            "extra": {
+                "Advanced engine": 1
+            }
         },
         "Mule": {
             "wood": 1150,
@@ -507,13 +554,22 @@ let tllist = {
             "wood": 1350,
             "iron": 270,
             "doubloons": 650000,
-            "extra": ["Pine decking", 1]
+            "extra": {
+                "Pine decking": 1
+            }
         },
         "Camel (Spruce Deck)": {
             "wood": 1350,
             "iron": 270,
             "doubloons": 650000,
-            "extra": ["Spruce decking", 1]
+            "extra": {
+                "Spruce decking": 1
+            }
+        },
+        "Veteran Sparrow": {
+            "wood": 40,
+            "iron": 500,
+            "doubloons": 10000
         }
     },
     "cannons": {
