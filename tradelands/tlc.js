@@ -479,10 +479,31 @@ let tllist = {
             "iron": 240,
             "doubloons": 88000
         },
+        "Corsair": {
+            "wood": 900,
+            "iron": 180,
+            "doubloons": 180000,
+            "extra": {
+                "Blessed Steam engine parts": 5
+            }
+        },
+        "Mastiff": {
+            "wood": 920,
+            "iron": 240,
+            "doubloons": 88000,
+            "extra": {
+                "Blessed Steam engine parts": 5
+            }
+        },
+        "Chimera": {
+            "wood": 1000,
+            "iron": 250,
+            "doubloons": 225000,
+        },
         "Prometheus": {
-            "wood": 980,
-            "iron": 320,
-            "doubloons": 150000,
+            "wood": 1400,
+            "iron": 380,
+            "doubloons": 600000,
             "extra": {
                 "Blessed Steam engine parts": 5
             }
@@ -503,6 +524,27 @@ let tllist = {
             "doubloons": 85000,
             "extra": {
                 "Kraken voucher": 1
+            }
+        },
+        "Pigeon": {
+            "wood": 1400,
+            "iron": 280,
+            "doubloons": 700000,
+        },
+        "Sigil": {
+            "wood": 1200,
+            "iron": 260,
+            "doubloons": 500000,
+            "extra": {
+                "Premium Tokens": 400
+            }
+        },
+        "Alliance": {
+            "wood": 1500,
+            "iron": 300,
+            "doubloons": 1200000,
+            "extra": {
+                "Premium Tokens": 1000
             }
         },
         "Alliance (Pine Deck)": {
@@ -549,6 +591,22 @@ let tllist = {
             "wood": 1150,
             "iron": 240,
             "doubloons": 275000
+        },
+        "Gryphon": {
+            "wood": 1300,
+            "iron": 320,
+            "doubloons": 400000,
+            "extra": {
+                "Premium Tokens": 400
+            }
+        },
+        "Camel": {
+            "wood": 1350,
+            "iron": 270,
+            "doubloons": 650000,
+            "extra": {
+                "Premium Tokens": 200
+            }
         },
         "Camel (Pine Deck)": {
             "wood": 1350,
