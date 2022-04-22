@@ -483,17 +483,11 @@ let tllist = {
             "wood": 900,
             "iron": 180,
             "doubloons": 180000,
-            "extra": {
-                "Blessed Steam engine parts": 5
-            }
         },
         "Mastiff": {
             "wood": 920,
             "iron": 240,
             "doubloons": 88000,
-            "extra": {
-                "Blessed Steam engine parts": 5
-            }
         },
         "Chimera": {
             "wood": 1000,
