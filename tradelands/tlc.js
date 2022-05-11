@@ -149,6 +149,23 @@ function init() {
         option.text = ship
         dropdown.add(option);
     }
+
+    document.getElementsByName("wood").forEach(e => {
+        tllist.woods.forEach(w => {
+            option = document.createElement('option');
+            option.text = w
+            e.add(option);
+        })
+    })
+
+    document.getElementsByName("metal").forEach(e => {
+        tllist.metals.forEach(m => {
+            option = document.createElement('option');
+            option.text = m
+            e.add(option);
+        })
+    })
+
     document.getElementById("ship-dropdown").value = "none"
     document.getElementById("engine-dropdown").value = "Blessed"
 
@@ -622,7 +639,16 @@ let tllist = {
             "wood": 40,
             "iron": 500,
             "doubloons": 10000
-        }
+        },
+        "Demeter": {
+            "wood": 1600,
+            "iron": 320,
+            "doubloons": 2000000,
+            "extra": {
+                "Advanced engine": 1,
+                "Blessed Steam engine parts": 4
+            }
+        },
     },
     "cannons": {
         "Light Long Gun": {
@@ -680,6 +706,14 @@ let tllist = {
         "Neptune Super Carronade": {
             "metal": 425,
             "wood": 70
+        },
+        "Demeter Long Gun": {
+            "metal": 300,
+            "wood": 60
+        },
+        "Mortar Turret": {
+            "metal": 400,
+            "wood": 70
         }
     },
     "other": {
@@ -712,5 +746,55 @@ let tllist = {
             "Coal": 100,
             "Copper": 50
         }
-    }
+    },
+    "metals": [
+        "Iron",
+        "Copper",
+        "Silver",
+        "Steel",
+        "Cast Iron",
+        "Gold",
+        "Ruby",
+        "Emerald",
+        "Amethyst",
+        "Sapphire",
+        "Onyx",
+        "Electrosteel",
+        "Ice",
+        "Salt",
+        "Colebalt",
+        "Tuanite",
+        "Nahrsteinium",
+        "Sand",
+        "Sepsteel",
+        "Composition L",
+        "Pursteel",
+        "Brekonium",
+        "Lysian Steel",
+        "Blue Steel",
+        "Hardened Pursteel"
+    ],
+    "woods": [
+        "Oak",
+        "Mahogany",
+        "Elm",
+        "Ash",
+        "Cherry",
+        "Ironwood",
+        "Pine",
+        "Spruce",
+        "Ebony",
+        "Angelwood",
+        "Grimewood",
+        "Blood Oak",
+        "Inyolan Oak",
+        "Heartwood",
+        "Pwnwood",
+        "Morian Hardwood",
+        "Plumwood",
+        "Lemonwood",
+        "Blue Pine",
+        "Red Oak",
+        "Western Greenwood"
+    ]
 }
