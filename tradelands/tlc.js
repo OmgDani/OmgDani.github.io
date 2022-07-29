@@ -437,6 +437,11 @@ let tllist = {
                 "Blessed Steam engine parts": 4
             }
         },
+        "Pillager": {
+            "wood": 480,
+            "iron": 100,
+            "doubloons": 400000
+        },
         "Stiletto": {
             "wood": 660,
             "iron": 120,
@@ -505,6 +510,11 @@ let tllist = {
             "wood": 920,
             "iron": 240,
             "doubloons": 88000,
+        },
+        "Grouse": {
+            "wood": 940,
+            "iron": 240,
+            "doubloons": 100000,
         },
         "Chimera": {
             "wood": 1000,
