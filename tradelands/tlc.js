@@ -539,6 +539,11 @@ let tllist = {
             "iron": 280,
             "doubloons": 140000
         },
+        "Kirin": {
+            "wood": 1100,
+            "iron": 200,
+            "doubloons": 120000
+        },
         "Kraken": {
             "wood": 900,
             "iron": 200,
